@@ -44,11 +44,20 @@ config app_name,
   runtime_env: config_env(),
   memegen_url: get_env_var.("MEMEGEN_URL", "https://api.memegen.link")
 
-config app_name, Edgybot.Repo,
-  database: "edgybot_#{config_env()}",
-  username: get_env_var.("DATABASE_USERNAME", "postgres"),
-  password: get_env_var.("DATABASE_PASSWORD", "postgres"),
-  hostname: get_env_var.("DATABASE_HOSTNAME", "localhost")
+database_url = get_env_var.("DATABASE_URL", nil)
+
+config app_name, Edgybot.Repo, socket_options: [:inet6]
+
+if database_url != nil do
+  config app_name, Edgybot.Repo, url: database_url
+else
+  config app_name, Edgybot.Repo,
+    database: get_env_var.("DATABASE_NAME", "edgybot_#{config_env()}"),
+    username: get_env_var.("DATABASE_USERNAME", "postgres"),
+    password: get_env_var.("DATABASE_PASSWORD", "postgres"),
+    hostname: get_env_var.("DATABASE_HOSTNAME", "localhost"),
+    port: get_env_var.("DATABASE_PORT", "5432")
+end
 
 if config_env() != :test do
   config :nostrum,

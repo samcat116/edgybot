@@ -1,0 +1,12 @@
+app = "edgybot"
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[deploy]
+  release_command = "eval 'Edgybot.Release.migrate'"
+
+[env]
+  ERL_AFLAGS = "-proto_dist inet6_tcp"
+
+[experimental]
+  auto_rollback = true

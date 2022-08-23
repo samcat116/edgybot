@@ -45,7 +45,8 @@ defmodule Edgybot.MixProject do
     [
       run: "run --no-halt",
       test: ["ecto.create --quiet", "ecto.migrate", "test --no-start"],
-      "ecto.reset": ["ecto.drop", "ecto.create", "ecto.migrate"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
       lint: ["dialyzer", "credo --strict"]
     ]
   end

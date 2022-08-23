@@ -2,7 +2,7 @@ FROM elixir:1.13.1-alpine AS builder
 
 ENV MIX_ENV="prod"
 
-WORKDIR /usr/src/edgybot
+WORKDIR /usr/src/app
 
 COPY . .
 
@@ -24,9 +24,9 @@ RUN apk update \
   libgcc="${LIBGCC_VERSION}" \
   ncurses-libs="${NCURSES_LIBS_VERSION}"
 
-WORKDIR /edgybot
+WORKDIR /app
 
-COPY --from=builder /usr/src/edgybot/_build/prod/rel/edgybot .
+COPY --from=builder /usr/src/app/_build/prod/rel/edgybot .
 
 ENTRYPOINT [ "bin/edgybot" ]
 CMD [ "start" ]
